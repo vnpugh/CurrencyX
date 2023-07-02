@@ -59,6 +59,27 @@ public class CurrencyConverter extends JFrame {
             }
         });
 
+        // Create panels (container) to add (store) components
+        JPanel panel = new JPanel();
+        panel.setLayout(new GridLayout(5, 2));
+        panel.add(lblAmount);
+        panel.add(txtAmount);
+        panel.add(lblFromCurrency);
+        panel.add(cmbFromCurrency);
+        panel.add(lblToCurrency);
+        panel.add(cmbToCurrency);
+        panel.add(btnConvert);
+        panel.add(lblConversion);
+        panel.add(lblTimestampLabel);
+        panel.add(lblTimestamp);
+
+        // Add panels to the frame
+        add(panel);
+
+        // Display the frame
+        setVisible(true);
+    }
+
 
 
 
