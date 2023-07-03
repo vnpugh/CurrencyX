@@ -2,13 +2,26 @@ package model;
 
 import service.CurrencyConverterService;
 
-import java.awt.*;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.swing.*;
 
+
+import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+
+
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 
 // need to make a GUI window/frame
@@ -24,14 +37,21 @@ public class CurrencyConverter extends JFrame {
 
     //set up the constructor for the CurrencyConverter class
     public CurrencyConverter() {
-        setTitle("Currency Converter");
+        setTitle("Currency Converter"); //icon title
         setSize(400, 250); //set the size of the frame
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //when the user closes the window, the application will exit.
         setLocationRelativeTo(null); //centers the JFrame window on the screen.
 
+        // Set up font
+        Font font = new Font("Arial", Font.PLAIN, 12);
+
+
         // Create & initialize the components
+
         JLabel lblAmount = new JLabel("Amount:");
-        txtAmount = new JTextField(10); //width of 10 characters
+        txtAmount = new JTextField(10);
+        lblAmount.setFont(font);
+        txtAmount.setFont(font);
 
         JLabel lblFromCurrency = new JLabel("From:"); //currency options
         cmbFromCurrency = new JComboBox<>(new String[]{"USD", "EUR", "GBP", "MXN", "CHF", "JPY", "CAD"});
@@ -43,31 +63,94 @@ public class CurrencyConverter extends JFrame {
         lblConversion = new JLabel("Conversion: "); //displays the conversion
 
         JLabel lblTimestampLabel = new JLabel("Last Updated:");
+        lblTimestampLabel.setFont(font);
         lblTimestamp = new JLabel();
+        lblTimestamp.setFont(font);
 
         // Initialize the service
         converterService = new CurrencyConverterService();
 
         // Add action listener to the button
-        btnConvert.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) { //Adds an action listener to call the function when the button is clicked
-                convertCurrency();
-            }
+        btnConvert.addActionListener(e -> { //Adds an action listener to call the function when the button is clicked
+            convertCurrency();
         });
 
         // Create panels (container) to add (store) components
-        JPanel panel = new JPanel();
-        panel.setLayout(new GridLayout(5, 2));
-        panel.add(lblAmount);
-        panel.add(txtAmount);
-        panel.add(lblFromCurrency);
-        panel.add(cmbFromCurrency);
-        panel.add(lblToCurrency);
-        panel.add(cmbToCurrency);
-        panel.add(btnConvert);
-        panel.add(lblConversion);
-        panel.add(lblTimestampLabel);
-        panel.add(lblTimestamp);
+//        JPanel panel = new JPanel();
+//        panel.setLayout(new GridLayout(5, 2));
+//        panel.add(lblAmount);
+//        panel.add(txtAmount);
+//        panel.add(lblFromCurrency);
+//        panel.add(cmbFromCurrency);
+//        panel.add(lblToCurrency);
+//        panel.add(cmbToCurrency);
+//        panel.add(btnConvert);
+//        panel.add(lblConversion);
+//        panel.add(lblTimestampLabel);
+//        panel.add(lblTimestamp);
+
+        // Create panel with GridBagLayout
+        JPanel panel = new JPanel(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(5, 10, 5, 10); // Margin/padding
+
+
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        panel.add(lblAmount, gbc);
+
+        gbc.gridx = 1;
+        gbc.gridy = 1;
+        panel.add(txtAmount, gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+        panel.add(lblFromCurrency, gbc);
+
+        gbc.gridx = 1;
+        gbc.gridy = 2;
+        panel.add(cmbFromCurrency, gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy = 3;
+        panel.add(lblToCurrency, gbc);
+
+        gbc.gridx = 1;
+        gbc.gridy = 3;
+        panel.add(cmbToCurrency, gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy = 4;
+        gbc.gridwidth = 2;
+        panel.add(btnConvert, gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy = 5;
+        gbc.gridwidth = 2;
+        panel.add(lblConversion, gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy = 6;
+        gbc.gridwidth = 2;
+        gbc.anchor = GridBagConstraints.LINE_START;
+        gbc.insets = new Insets(10, 0, 0, 0); // Adjusted insets for spacing
+        panel.add(lblTimestampLabel, gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy = 7;
+        gbc.gridwidth = 2;
+        gbc.anchor = GridBagConstraints.LINE_START;
+        gbc.insets = new Insets(10, 0, 0, 0); // Adjusted insets for spacing
+        panel.add(lblTimestamp, gbc);
+
+        // Set panel font
+        panel.setFont(font);
+
+
+
+
+
+
 
         // Add panels to the frame
         add(panel);

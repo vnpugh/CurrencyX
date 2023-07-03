@@ -58,7 +58,7 @@ public class CurrencyConverterService {
             double exchangeRate = rates.get(currencyCode).getAsDouble();
 
             return exchangeRate;
-            
+
 
         } else {
             throw new Exception("Failed to fetch exchange rate for " + currencyCode);
