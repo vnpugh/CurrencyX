@@ -21,7 +21,7 @@ public class CurrencyConverter extends JFrame {
     private JTextField txtAmount;  //user enters the dollar amount
     private JComboBox<String> cmbFromCurrency; //a combo box component that allows the user to select the currency they want to convert from.
     private JComboBox<String> cmbToCurrency; //a combo box component that allows the user to select the currency they want to convert to.
-    private JLabel lblConversion; //a label component that will display the result of the conversion.
+    private JLabel lblConversion; //a label component that will display the conversion.
     private JLabel lblTimestamp; //a label component that will display the timestamp.
     private CurrencyConverterService converterService; //an instance of the CurrencyConverterService class that will perform conversions and fetch live exchange rates.
 
@@ -79,6 +79,38 @@ public class CurrencyConverter extends JFrame {
         // Display the frame
         setVisible(true);
     }
+
+    /**
+     * This method performs the currency conversion based on the user input.
+     */
+    private void convertCurrency() {
+        try {
+            double amount = Double.parseDouble(txtAmount.getText());
+            String fromCurrency = (String) cmbFromCurrency.getSelectedItem();
+            String toCurrency = (String) cmbToCurrency.getSelectedItem();
+
+            double conversion = converterService.convertCurrency(amount, fromCurrency, toCurrency);
+
+            lblConversion.setText("Conversion: " + conversion);
+
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); //format the current date and time.
+            lblTimestamp.setText(sdf.format(new Date()));
+        } catch (NumberFormatException ex) {
+            lblConversion.setText("Invalid Currency Amount");
+        } catch (Exception ex) {
+            lblConversion.setText("Error: " + ex.getMessage());
+        }
+    }
+
+     //method ensures the GUI components are created and shown correctly when the application is executed.
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                new CurrencyConverter();
+            }
+        });
+    }
+}
 
 
 
