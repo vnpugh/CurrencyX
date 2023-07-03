@@ -2,26 +2,11 @@ package model;
 
 import service.CurrencyConverterService;
 
-
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import javax.swing.*;
+import java.awt.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import javax.swing.*;
 
-
-import java.awt.Font;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
-
-
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
 
 
 // need to make a GUI window/frame
@@ -59,8 +44,19 @@ public class CurrencyConverter extends JFrame {
         JLabel lblToCurrency = new JLabel("To:");
         cmbToCurrency = new JComboBox<>(new String[]{"USD", "EUR", "GBP", "MXN", "CHF", "JPY", "CAD"});
 
+
         JButton btnConvert = new JButton("Convert");
         lblConversion = new JLabel("Conversion: "); //displays the conversion
+
+
+        JButton btnSwap = new JButton("Swap");
+        btnSwap.addActionListener(e -> {
+            int fromIndex = cmbFromCurrency.getSelectedIndex();
+            int toIndex = cmbToCurrency.getSelectedIndex();
+
+            cmbFromCurrency.setSelectedIndex(toIndex);
+            cmbToCurrency.setSelectedIndex(fromIndex);
+        });
 
         JLabel lblTimestampLabel = new JLabel("Last Updated:");
         lblTimestampLabel.setFont(font);
@@ -75,82 +71,60 @@ public class CurrencyConverter extends JFrame {
             convertCurrency();
         });
 
-        // Create panels (container) to add (store) components
-//        JPanel panel = new JPanel();
-//        panel.setLayout(new GridLayout(5, 2));
-//        panel.add(lblAmount);
-//        panel.add(txtAmount);
-//        panel.add(lblFromCurrency);
-//        panel.add(cmbFromCurrency);
-//        panel.add(lblToCurrency);
-//        panel.add(cmbToCurrency);
-//        panel.add(btnConvert);
-//        panel.add(lblConversion);
-//        panel.add(lblTimestampLabel);
-//        panel.add(lblTimestamp);
+        // Create panels (container) to add (store) components with GridBagLayout
 
-        // Create panel with GridBagLayout
         JPanel panel = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(5, 10, 5, 10); // Margin/padding
 
 
         gbc.gridx = 0;
-        gbc.gridy = 1;
+        gbc.gridy = 0;
+        gbc.anchor = GridBagConstraints.WEST;
         panel.add(lblAmount, gbc);
 
         gbc.gridx = 1;
-        gbc.gridy = 1;
         panel.add(txtAmount, gbc);
 
         gbc.gridx = 0;
-        gbc.gridy = 2;
+        gbc.gridy = 1;
         panel.add(lblFromCurrency, gbc);
 
         gbc.gridx = 1;
-        gbc.gridy = 2;
         panel.add(cmbFromCurrency, gbc);
 
         gbc.gridx = 0;
-        gbc.gridy = 3;
+        gbc.gridy = 2;
         panel.add(lblToCurrency, gbc);
 
         gbc.gridx = 1;
-        gbc.gridy = 3;
         panel.add(cmbToCurrency, gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy = 3;
+        panel.add(btnSwap, gbc);
+
+        gbc.gridx = 1;
+        panel.add(btnConvert, gbc);
 
         gbc.gridx = 0;
         gbc.gridy = 4;
         gbc.gridwidth = 2;
-        panel.add(btnConvert, gbc);
+        panel.add(lblConversion, gbc);
 
         gbc.gridx = 0;
         gbc.gridy = 5;
         gbc.gridwidth = 2;
-        panel.add(lblConversion, gbc);
+        panel.add(lblTimestampLabel, gbc);
 
         gbc.gridx = 0;
         gbc.gridy = 6;
         gbc.gridwidth = 2;
-        gbc.anchor = GridBagConstraints.LINE_START;
-        gbc.insets = new Insets(10, 0, 0, 0); // Adjusted insets for spacing
-        panel.add(lblTimestampLabel, gbc);
-
-        gbc.gridx = 0;
-        gbc.gridy = 7;
-        gbc.gridwidth = 2;
-        gbc.anchor = GridBagConstraints.LINE_START;
-        gbc.insets = new Insets(10, 0, 0, 0); // Adjusted insets for spacing
         panel.add(lblTimestamp, gbc);
+
 
         // Set panel font
         panel.setFont(font);
-
-
-
-
-
-
 
         // Add panels to the frame
         add(panel);
@@ -158,6 +132,7 @@ public class CurrencyConverter extends JFrame {
         // Display the frame
         setVisible(true);
     }
+
 
     /**
      * This method performs the currency conversion based on the user input.
